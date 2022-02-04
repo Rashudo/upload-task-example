@@ -1,6 +1,6 @@
 <?php
 
-/** @var \Laravel\Lumen\Routing\Router $router */
+/** @var Router $router */
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +13,16 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+use App\Containers\AppSection\UploadContainer\UI\API\Controllers\ImageListController;
+use App\Containers\AppSection\UploadContainer\UI\API\Controllers\UploadImageController;
+use Laravel\Lumen\Routing\Router;
+
+$router->get(
+    '/images',
+    ImageListController::class
+);
+
+$router->post(
+    '/images',
+    UploadImageController::class
+);

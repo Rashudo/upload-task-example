@@ -12,17 +12,10 @@ services:
             -   .env
         volumes:
             - './project:/var/www/html'
+
         networks:
             - app-network
         restart: always
-
-        healthcheck:
-            test: [ "CMD", "php", "artisan", "inspire" ]
-            retries: 3
-            timeout: 10s
-
-        extra_hosts:
-            - "host.docker.internal:host-gateway"
 
     nginx:
         build:
@@ -30,40 +23,15 @@ services:
             dockerfile: ./docker/nginx/Dockerfile
         networks:
             - app-network
+
+        volumes:
+            - './project/storage/app/public:/var/www/html/storage/app/public'
         ports:
             - "443:443"
             - "80:80"
         restart: always
         depends_on:
             -   app
-
-    mariadb:
-        image: 'mariadb:latest'
-        volumes:
-            - 'appmaria:/var/lib/mysql'
-
-        ports:
-            - "30036:3306"
-
-        env_file:
-            - .env
-
-        networks:
-            - app-network
-
-        depends_on:
-            - app
-
-        restart: always
-
-        healthcheck:
-            test: [ "CMD", "mysqladmin", "ping", "-p${MARIADB_ROOT_PASSWORD}" ]
-            retries: 3
-            timeout: 10s
-
-volumes:
-    appmaria:
-        driver: local
 
 networks:
     app-network:
