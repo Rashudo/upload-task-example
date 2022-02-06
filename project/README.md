@@ -1,24 +1,49 @@
-# Lumen PHP Framework
+# Реализация
+Использован фреймвор Lumen.
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
+Арихитектура проекта сделана в стиле [Porto](http://apiato.io/)
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+Реализация функционала сразу выделена в отдельный [контейнер](UploadContainer)
 
-## Official Documentation
+Так как MVP требует два юзкейса, то создано два Action'а для эндпоинта /images:
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+- GetAllImagesAction - вывод сохраненных изображений (GET)
 
-## Contributing
+**Привер ответа:**
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
+[
+    {
+        "name": "61fcefdd42358.png",
+        "path": "http://localhost/storage/61fcefdd42358.png"
+    }
+]
+---
 
-## Security Vulnerabilities
+- UploadNewImageAction - загрузка изображений, указанных по ссылке (POST)
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+**Пример ответа:**
+---
+[
+    {
+        "success": true,
+        "url": "http://localhost/storage/61fcefdd42358.png",
+        "error": null
+    }
+]
+---
 
-## License
+## Описание контейнера
+**Actions** - Юзкейсы
+**Adapters** - Адаптеры для работы со сторонними библиотеками, на случай их замены
+**Contracts** - Контракты контейнера
+**Data** - DTO, ответы и валидаторы
+**Exceptions** - Ошибки контейнера
+**Models** - Модели контейнера. Используются Eloquent-модели.
+**Tasks** - Мелкий команды контейнера
+**UI** - Контроллеры, реквесты 
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Необходимо при развитии проекта
+- Дописать тесты
+- Использовать статический анализатор
+- Описать CI/CD
